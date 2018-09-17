@@ -26,3 +26,30 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.blue {
+  display: flex;
+  background: deepskyblue;
+  width: 50%;
+  height: 300px;
+  margin: 0 auto;
+}
+
+
+.green {
+    display: flex;
+    align-self: center;
+    background: springgreen;
+    height: 75%;
+    width: 75%;
+    margin: 0 auto;
+}
+
+.white {
+  display: flex;
+  align-self: center;
+  height: 50%;
+  width: 70%;
+  margin: 0 auto;
+  background: white;
+}
