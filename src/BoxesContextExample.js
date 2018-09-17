@@ -1,39 +1,48 @@
-import React, { Component } from 'react';
+import React, { Component, createContext } from 'react';
 
-const White = ({ counter, increment }) => (
+const AppContext = createContext();
+
+const White = () => (
 	<div className='white'>
-		{counter}
-		<div className='button'>
-			<button onClick={increment}>Increment!</button>
-		</div>
+		<AppContext.Consumer>
+			{(context) => ([
+				context.counter,
+				<div className='button'>
+					<button onClick={context.increment}>Increment!</button>
+				</div>
+			])}
+		</AppContext.Consumer>
 	</div>
 );
 
-const Green = props => (
+const Green = () => (
 	<div className='green'>
-		<White {...props}/>
+		<White/>
 	</div>
 );
 
-const Blue = props => (
+const Blue = () => (
 	<div className='blue'>
-		{props.counter}
-		<Green {...props}/>
+		<AppContext.Consumer>
+			{(context) => context.counter}
+		</AppContext.Consumer>
+		<Green/>
 	</div>
 );
 
-class Boxes extends Component {
+class AppContextProvider extends Component {
 	state = {
-		counter: 0
+		counter: 0,
+		increment: () => { this.setState({ counter: this.state.counter + 1 }) }
 	};
-
-	increment = () => this.setState({ counter: this.state.counter + 1 });
 
 	render() {
 		return (
-			<Blue counter={this.state.counter} increment={this.increment}/>
+			<AppContext.Provider value={this.state}>
+				<Blue />
+			</AppContext.Provider>
 		);
 	}
 }
 
-export default Boxes;
+export default AppContextProvider;
