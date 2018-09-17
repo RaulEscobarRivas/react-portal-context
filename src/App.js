@@ -9,7 +9,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React-Context playground</h1>
+          <h1 className="App-title">Welcome to React Portal & Context playground</h1>
         </header>
         <BoxesContextExample />
       </div>
