@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
-import { createPortal } from 'react-dom';
 
-
-const White = ({ counter }) => (
+const White = ({ counter, inc }) => (
 	<div className='white'>
 		<div className='button'>
 			{counter}
-			<button>Increment!</button>
+			<button onClick={inc}>Increment!</button>
 		</div>
 	</div>
 );
 
-const Green = () => (
+const Green = props => (
 	<div className='green'>
+		<White {...props} />
 	</div>
 );
 
+const Blue = props => (
+	<div className='blue'>
+		{props.counter}
+		<Green {...props} />
+	</div>
+);
 
-class Blue extends Component {
+class Boxes extends Component {
 	state = {
 		counter: 0,
 		inc: () => { this.setState({ counter: this.state.counter + 1 }) }
@@ -25,13 +30,11 @@ class Blue extends Component {
 
 	render() {
 		return (
-			<div onClick={this.state.inc} className='blue'>
-				{this.state.counter}
-				{ createPortal(<White counter={this.state.counter}/>, document.getElementById('portal'))}
-				<Green />
+			<div>
+				<Blue {...this.state} />
 			</div>
 		);
 	}
 }
 
-export default Blue;
+export default Boxes;
