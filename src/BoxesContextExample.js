@@ -1,48 +1,42 @@
-import React, { Component, createContext } from 'react';
+import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
 
-const AppContext = createContext();
 
-const White = () => (
+const White = ({ counter }) => (
 	<div className='white'>
-		<AppContext.Consumer>
-			{(context) => ([
-				context.counter,
-				<div className='button'>
-					<button onClick={context.increment}>Increment!</button>
-				</div>
-			])}
-		</AppContext.Consumer>
+		<div className='button'>
+			{counter}
+			<button>Increment!</button>
+		</div>
 	</div>
 );
 
 const Green = () => (
 	<div className='green'>
-		<White/>
 	</div>
 );
 
-const Blue = () => (
+const Blue = ({ counter }) => (
 	<div className='blue'>
-		<AppContext.Consumer>
-			{(context) => context.counter}
-		</AppContext.Consumer>
+		{counter}
 		<Green/>
 	</div>
 );
 
-class AppContextProvider extends Component {
+class Boxes extends Component {
 	state = {
 		counter: 0,
-		increment: () => { this.setState({ counter: this.state.counter + 1 }) }
+		inc: () => { this.setState({ counter: this.state.counter + 1 }) }
 	};
 
 	render() {
 		return (
-			<AppContext.Provider value={this.state}>
-				<Blue />
-			</AppContext.Provider>
+			<div onClick={this.state.inc}>
+				{ createPortal(<White counter={this.state.counter}/>, document.getElementById('portal'))}
+				<Blue counter={this.state.counter} />
+			</div>
 		);
 	}
 }
 
-export default AppContextProvider;
+export default Boxes;
